@@ -62,26 +62,44 @@ set_target_properties(rational-lib
 # https://www.foonathan.net/2018/10/cmake-warnings/
 #
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-target_compile_options(rational-lib PRIVATE
-    -Wall -Wextra -pedantic -Werror -Wconversion -Wsign-conversion
+target_compile_options(rational-lib
+    PRIVATE
+        -Wall -Wextra -pedantic -Werror -Wconversion -Wsign-conversion
 )
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
-target_compile_options(rational-lib PRIVATE
-    -Wall -Wextra -pedantic -Werror -Wconversion -Wsign-conversion
+target_compile_options(rational-lib
+    PRIVATE
+        -Wall -Wextra -pedantic -Werror -Wconversion -Wsign-conversion
 )
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-target_compile_options(rational-lib PRIVATE
-    -Wall -Wextra -pedantic -Werror -Wconversion -Wsign-conversion
+target_compile_options(rational-lib
+    PRIVATE
+        -Wall -Wextra -pedantic -Werror -Wconversion -Wsign-conversion
 )
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-target_compile_options(rational-lib PRIVATE
-    #
-    # /Zc:preprocessor is needed for handling __VA_OPT__(,)
-    #
-    /Zc:preprocessor /WX /W4
+target_compile_options(rational-lib
+    PRIVATE
+        #
+        # /Zc:preprocessor is needed for handling __VA_OPT__(,)
+        #
+        /Zc:preprocessor /WX /W4
 )
 else()
 message(FATAL_ERROR "Unrecognized compiler: ${CMAKE_CXX_COMPILER_ID}")
+endif()
+
+
+if(SANITIZE)
+    if(${SANITIZE} STREQUAL "ubsan")
+        target_compile_options(rational-lib
+            PRIVATE
+                -fsanitize=undefined -fno-sanitize-recover=undefined
+        )
+        target_link_options(rational-lib
+            PRIVATE
+                -fsanitize=undefined -fno-sanitize-recover=undefined
+        )
+    endif()
 endif()
 
 
