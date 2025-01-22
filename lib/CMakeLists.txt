@@ -99,6 +99,15 @@ if(SANITIZE)
             PRIVATE
                 -fsanitize=undefined -fno-sanitize-recover=undefined
         )
+    elseif(${SANITIZE} STREQUAL "asan")
+        target_compile_options(rational-lib
+            PRIVATE
+                -fsanitize=address -fno-omit-frame-pointer
+        )
+        target_link_options(rational-lib
+            PRIVATE
+                -fsanitize=address -fno-omit-frame-pointer
+        )
     endif()
 endif()
 

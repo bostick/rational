@@ -26,6 +26,7 @@ project(rational
 set(RATIONAL_BUILD_TESTS OFF CACHE BOOL "Build tests")
 
 message(STATUS "RATIONAL_BUILD_TESTS: ${RATIONAL_BUILD_TESTS}")
+message(STATUS "SANITIZE: ${SANITIZE}")
 
 
 add_subdirectory(lib)
